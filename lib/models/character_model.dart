@@ -1,49 +1,41 @@
-class CharacterModel {
-  final int _id;
-  final String _name;
-  final String _status;
-  final String _species;
-  final String _image;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  int get id => _id;
+part 'character_model.freezed.dart';
+part 'character_model.g.dart';
 
-  String get name => _name;
+@freezed
+class Character with _$Character{
+  const factory Character({
+    required List<Results> results,
+    required Info info,
 
-  String get status => _status;
+}) = _Character;
 
-  String get species => _species;
+  factory Character.fromJson(Map<String, dynamic> json) => _$CharacterFromJson(json);
 
-  String get image => _image;
-
-  CharacterModel.fromJson(Map<String, dynamic>json)
-      :
-        this._id = json["id"],
-        this._name = json["name"],
-        this._status = json["status"],
-        this._species = json["species"],
-        this._image = json["image"];
-}
-class CharacterList{
-  final List<CharacterModel> characters = [];
-  CharacterList.fromJson(List<dynamic> jsonItems) {
-    for (var jsonItem in jsonItems) {
-      characters.add(CharacterModel.fromJson(jsonItem));
-    }
-  }
 }
 
-abstract class CharacterResult{}
+@freezed
+class Info with _$Info{
+  const factory Info({
+    required int count,
+    required int pages,
+    String? next,
+    String? prev,
+}) = _Info;
 
-class CharacterResultSuccess extends CharacterResult {
-  final CharacterList characterList;
-  CharacterResultSuccess(this.characterList);
+  factory Info.fromJson(Map<String, dynamic> json) => _$InfoFromJson(json);
 }
 
-class CharacterResultError extends CharacterResult{
-  final String error;
-  CharacterResultError(this.error);
-}
+@freezed
+class Results with _$Results{
+  const factory Results({
+    required String name,
+    required String status,
+    required String species,
+    required String gender,
+    required String image,
+}) = _Results;
 
-class CharacterResultLoading extends CharacterResult{
-  CharacterResultLoading();
+  factory Results.fromJson(Map<String, dynamic> json) => _$ResultsFromJson(json);
 }
